@@ -1,0 +1,200 @@
+{
+  "HomePage": {
+    "quickstart": "Quick Start",
+    "title": "Your Universal Bookmark Manager",
+    "description": "Save and organize your bookmarks with one click. Access them anywhere, anytime.",
+    "features": {
+      "save": {
+        "title": "One-Click Save",
+        "desc": "Save any webpage to your collection with a simple drag and drop installation."
+      },
+      "categorize": {
+        "title": "Smart Categories",
+        "desc": "Automatically categorize your bookmarks for better organization."
+      },
+      "access": {
+        "title": "Access Anywhere",
+        "desc": "Sync across devices, access your bookmarks anywhere."
+      },
+      "share": {
+        "title": "Share & Collaborate",
+        "desc": "Easily share bookmark collections and collaborate with others."
+      }
+    }
+  },
+  "NotFoundPage": {
+    "title": "404: This page could not be found.",
+    "errorCode": "404",
+    "description": "This page could not be found."
+  },
+  "DocPage": {
+    "title": "Cloudmark Quick Start",
+    "description": "Cross-device, cross-browser cloud bookmark management tool",
+    "loading": "Loading...",
+    "intro": {
+      "title": "What is Cloudmark?",
+      "description": "Cloudmark is a cloud-based bookmark collection tool that allows you to save and organize web bookmarks with one click and access them from any device.",
+      "features": {
+        "title": "Key Features",
+        "oneClick": "One-click saving of current webpage",
+        "cloud": "Cloud storage for cross-device access",
+        "categories": "Organize and filter bookmarks by categories",
+        "custom": "Customizable bookmark collections",
+        "sorting": "Multiple sorting and layout options",
+        "multilingual": "Multilingual interface support"
+      }
+    },
+    "setup": {
+      "title": "Set Up Your Bookmarklet",
+      "markName": {
+        "title": "Set Your Bookmark Name",
+        "placeholder": "Name your bookmark ID",
+        "description": "This name will be used for your bookmark collection and can only contain letters, numbers, underscores, and hyphens.",
+        "button": "Generate Random"
+      },
+      "bookmarklet": {
+        "title": "Install Bookmark Tool",
+        "saveButton": "Save to {mark}",
+        "openButton": "Open {mark} Bookmarks",
+        "dragTip": "Drag to bookmark bar",
+        "description": "Drag the button above to your browser's bookmark bar to save the current webpage anytime."
+      },
+      "code": {
+        "title": "View Bookmarklet Code",
+        "copied": "Copied"
+      }
+    },
+    "usage": {
+      "title": "How to Use Cloudmark",
+      "steps": {
+        "setup": {
+          "title": "Set Up Your Bookmarklet",
+          "description": "Follow the instructions above to create your bookmark collection name and add the bookmarklet to your browser's bookmark bar. Each bookmark collection name corresponds to a separate bookmark collection."
+        },
+        "save": {
+          "title": "Save Webpages to Your Collection",
+          "description": "When browsing a webpage, click the Cloudmark bookmarklet in your bookmark bar to open the bookmark addition page. Fill in the category and description (optional), then save."
+        },
+        "access": {
+          "title": "Access Your Bookmark Collection",
+          "description": "Access {baseUrl}/{mark} to view and manage all your saved bookmarks. You can access this URL from any device or browser."
+        },
+        "manage": {
+          "title": "Organize and Manage Your Bookmarks",
+          "description": "You can edit or delete bookmarks, change category views, sort by different criteria, and use category filters to quickly find the bookmarks you need."
+        }
+      }
+    },
+    "demo": {
+      "title": "Want to Experience Cloudmark?",
+      "description": "Try all the features of Cloudmark without creating a bookmark collection",
+      "button": "View Demo"
+    },
+    "navigation": {
+      "intro": "Introduction",
+      "setup": "Setup",
+      "usage": "Usage",
+      "demo": "Demo"
+    }
+  },
+  "Navigation": {
+    "quickstart": "Quick Start",
+    "github": "GitHub",
+    "switchLanguage": "Switch Language"
+  },
+  "BookmarksPage": {
+    "title": "Bookmarks",
+    "collection": "Collection {mark}",
+    "addBookmark": "Add Bookmark",
+    "noBookmarks": "No bookmarks yet",
+    "addFirstBookmark": "Add your first bookmark",
+    "loading": "Loading bookmarks...",
+    "bookmarkletTip": "Drag this button to your bookmarks bar to save pages with one click",
+    "saveButton": "Save to {mark}",
+    "dragTip": "Drag to bookmarks bar",
+    "demoMode": "Demo Mode",
+    "demoDescription": "This is a demo collection. You can freely add, edit, and delete bookmarks. All changes will only affect your local view and won't be saved to the server.",
+    "createOwn": "Create Your Own",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "Components": {
+    "MarkInput": {
+      "label": "Bookmark Mark",
+      "placeholder": "Enter custom mark",
+      "randomButton": "Random",
+      "description": "The mark will be used to distinguish different bookmark collections. It's recommended to use meaningful phrases. Current mark: "
+    },
+    "BookmarkCard": {
+      "visit": "Visit",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this bookmark?"
+    },
+    "BookmarkDialog": {
+      "addTitle": "Add Bookmark",
+      "addDescription": "Add a new bookmark to collection {mark}",
+      "editTitle": "Edit Bookmark",
+      "editDescription": "Edit bookmark information",
+      "deleteTitle": "Delete Bookmark",
+      "deleteDescription": "Are you sure you want to delete bookmark \"{title}\"?",
+      "deleteConfirmation": "This action cannot be undone. The bookmark will be permanently removed from your collection.",
+      "url": "URL",
+      "urlPlaceholder": "Enter bookmark URL",
+      "urlDescription": "The URL of the webpage you want to bookmark",
+      "title": "Title",
+      "titlePlaceholder": "Enter bookmark title",
+      "titleDescription": "A descriptive title for your bookmark",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter bookmark description (optional)",
+      "descriptionDescription": "Add some notes about this bookmark",
+      "category": "Category",
+      "categoryPlaceholder": "Select a category",
+      "categoryDescription": "Choose a category to organize your bookmarks",
+      "newCategory": "New Category",
+      "newCategoryPlaceholder": "Enter new category name",
+      "existingCategory": "Existing Categories",
+      "backToCategories": "Back to categories",
+      "cancel": "Cancel",
+      "reset": "Reset",
+      "addButton": "Add Bookmark",
+      "updateButton": "Update Bookmark",
+      "deleteButton": "Delete Bookmark",
+      "adding": "Adding...",
+      "updating": "Updating...",
+      "deleting": "Deleting...",
+      "addSuccess": "Bookmark added successfully",
+      "updateSuccess": "Bookmark updated successfully",
+      "deleteSuccess": "Bookmark deleted successfully",
+      "errors": {
+        "urlRequired": "URL is required",
+        "invalidUrl": "Please enter a valid URL",
+        "categoryRequired": "Category is required",
+        "addFailed": "Failed to add bookmark",
+        "updateFailed": "Failed to update bookmark",
+        "deleteFailed": "Failed to delete bookmark"
+      },
+      "addBookmark": "Add Bookmark",
+      "delete": "Delete bookmark",
+      "edit": "Edit bookmark"
+    },
+    "FloatingNav": {
+      "title": "Categories",
+      "expandNav": "Expand Navigation",
+      "collapseNav": "Collapse Navigation",
+      "jumpToCategory": "Jump to {category}"
+    }
+  },
+  "Notifications": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "bookmarkAdded": "Bookmark added successfully",
+    "bookmarkExists": "Bookmark with this URL already exists",
+    "urlRequired": "URL is required",
+    "processingError": "Error processing bookmark"
+  }
+}

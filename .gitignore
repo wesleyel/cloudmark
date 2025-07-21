@@ -21,6 +21,11 @@
 /.next/
 /out/
 
+# nuxt
+.nuxt
+.nitro
+.output
+
 # production
 /build
 
@@ -47,3 +52,17 @@ next-env.d.ts
 # wrangler files
 .wrangler
 .dev.vars
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs
+*.log
+
+# Cache
+.cache
+.parcel-cache

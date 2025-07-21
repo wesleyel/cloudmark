@@ -1,0 +1,200 @@
+{
+  "HomePage": {
+    "quickstart": "快速入门",
+    "title": "你的通用书签管理器",
+    "description": "一键保存和整理书签。随时随地访问。",
+    "features": {
+      "save": {
+        "title": "一键收藏",
+        "desc": "通过简单的拖拽安装，一键保存任何网页到您的收藏夹。"
+      },
+      "categorize": {
+        "title": "智能分类",
+        "desc": "自动对书签进行分类，让您的收藏更有条理。"
+      },
+      "access": {
+        "title": "随处访问",
+        "desc": "跨设备同步，随时随地访问您的书签收藏。"
+      },
+      "share": {
+        "title": "分享协作",
+        "desc": "轻松与他人分享书签集合，协同整理资源。"
+      }
+    }
+  },
+  "NotFoundPage": {
+    "title": "404: 无法找到此页面。",
+    "errorCode": "404",
+    "description": "无法找到此页面。"
+  },
+  "DocPage": {
+    "title": "Cloudmark 快速入门",
+    "description": "跨设备、跨浏览器的云端书签管理工具",
+    "loading": "加载中...",
+    "intro": {
+      "title": "什么是 Cloudmark？",
+      "description": "Cloudmark 是一个基于云的书签收集工具，允许您一键保存和组织网页书签，并从任何设备访问。",
+      "features": {
+        "title": "主要特点",
+        "oneClick": "一键保存当前浏览页面",
+        "cloud": "云端存储确保跨设备访问",
+        "categories": "按分类整理和筛选书签",
+        "custom": "可自定义的书签集合",
+        "sorting": "支持多种排序和布局视图",
+        "multilingual": "支持多语言界面"
+      }
+    },
+    "setup": {
+      "title": "设置您的 Bookmarklet",
+      "markName": {
+        "title": "设置书签的名称",
+        "placeholder": "为您的书签 ID 取个名字",
+        "description": "此名称将用于您的书签集合，只能包含字母、数字、下划线和连字符。",
+        "button": "随机生成"
+      },
+      "bookmarklet": {
+        "title": "安装书签工具",
+        "saveButton": "保存到 {mark}",
+        "openButton": "打开 {mark} 书签",
+        "dragTip": "拖动到书签栏",
+        "description": "将上面的按钮拖动到您的浏览器书签栏，以便随时保存当前浏览的网页。"
+      },
+      "code": {
+        "title": "查看 Bookmarklet 代码",
+        "copied": "已复制"
+      }
+    },
+    "usage": {
+      "title": "如何使用 Cloudmark",
+      "steps": {
+        "setup": {
+          "title": "设置您的 Bookmarklet",
+          "description": "按照上面的说明创建您的书签集合名称并将 bookmarklet 添加到您的浏览器书签栏中。每个书签集合名称对应一个独立的书签集合。"
+        },
+        "save": {
+          "title": "保存网页到您的集合",
+          "description": "当您浏览网页时，点击书签栏中的 Cloudmark bookmarklet，会打开添加书签的页面。填写分类和描述（可选），然后保存即可。"
+        },
+        "access": {
+          "title": "访问您的书签集合",
+          "description": "通过访问 {baseUrl}/{mark} 可以查看和管理您保存的所有书签。您可以在任何设备和浏览器上访问这个 URL。"
+        },
+        "manage": {
+          "title": "整理和管理您的书签",
+          "description": "您可以编辑或删除书签，更改分类视图，按不同条件排序，以及使用分类筛选器快速找到您需要的书签。"
+        }
+      }
+    },
+    "demo": {
+      "title": "想要体验 Cloudmark？",
+      "description": "不需要创建书签集合，直接体验 Cloudmark 的全部功能",
+      "button": "查看演示"
+    },
+    "navigation": {
+      "intro": "简介",
+      "setup": "设置",
+      "usage": "使用方法",
+      "demo": "演示"
+    }
+  },
+  "Navigation": {
+    "quickstart": "快速入门",
+    "github": "GitHub",
+    "switchLanguage": "切换语言"
+  },
+  "BookmarksPage": {
+    "title": "书签收藏",
+    "collection": "收藏集 {mark}",
+    "addBookmark": "添加书签",
+    "noBookmarks": "暂无书签",
+    "addFirstBookmark": "添加第一个书签",
+    "loading": "正在加载书签...",
+    "bookmarkletTip": "拖拽此按钮到书签栏，一键保存网页到此收藏",
+    "saveButton": "保存到 {mark}",
+    "dragTip": "拖拽到书签栏",
+    "demoMode": "演示模式",
+    "demoDescription": "这是一个演示集合，您可以自由添加、编辑和删除书签，所有操作仅在本地生效，不会保存到服务器。",
+    "createOwn": "创建自己的收藏",
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息"
+  },
+  "Components": {
+    "MarkInput": {
+      "label": "书签标记",
+      "placeholder": "输入自定义标记",
+      "randomButton": "随机生成",
+      "description": "标记将用于区分不同的书签收藏，建议使用有意义的词组。当前标记："
+    },
+    "BookmarkCard": {
+      "visit": "访问",
+      "edit": "编辑",
+      "delete": "删除",
+      "deleteConfirm": "确定要删除这个书签吗？"
+    },
+    "BookmarkDialog": {
+      "addTitle": "添加书签",
+      "addDescription": "添加新书签到 {mark} 收藏夹",
+      "editTitle": "编辑书签",
+      "editDescription": "编辑书签信息",
+      "deleteTitle": "删除书签",
+      "deleteDescription": "确定要删除书签 \"{title}\" 吗？",
+      "deleteConfirmation": "此操作无法撤销，删除后书签将从您的收藏中永久移除。",
+      "url": "网址",
+      "urlPlaceholder": "输入书签网址",
+      "urlDescription": "您想要收藏的网页地址",
+      "title": "标题",
+      "titlePlaceholder": "输入书签标题",
+      "titleDescription": "为您的书签添加一个描述性的标题",
+      "description": "描述",
+      "descriptionPlaceholder": "输入书签描述（可选）",
+      "descriptionDescription": "添加一些关于这个书签的备注",
+      "category": "分类",
+      "categoryPlaceholder": "选择分类",
+      "categoryDescription": "选择一个分类来组织您的书签",
+      "newCategory": "新建分类",
+      "newCategoryPlaceholder": "输入新分类名称",
+      "existingCategory": "现有分类",
+      "backToCategories": "返回分类列表",
+      "cancel": "取消",
+      "reset": "重置",
+      "addButton": "添加书签",
+      "updateButton": "更新书签",
+      "deleteButton": "删除书签",
+      "adding": "添加中...",
+      "updating": "更新中...",
+      "deleting": "删除中...",
+      "addSuccess": "书签添加成功",
+      "updateSuccess": "书签更新成功",
+      "deleteSuccess": "书签删除成功",
+      "errors": {
+        "urlRequired": "请输入网址",
+        "invalidUrl": "请输入有效的网址",
+        "categoryRequired": "请选择分类",
+        "addFailed": "添加书签失败",
+        "updateFailed": "更新书签失败",
+        "deleteFailed": "删除书签失败"
+      },
+      "addBookmark": "添加书签",
+      "delete": "删除书签",
+      "edit": "编辑"
+    },
+    "FloatingNav": {
+      "title": "分类导航",
+      "expandNav": "展开导航",
+      "collapseNav": "折叠导航",
+      "jumpToCategory": "跳转到{category}分类"
+    }
+  },
+  "Notifications": {
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "通知",
+    "bookmarkAdded": "书签已成功添加",
+    "bookmarkExists": "该 URL 的书签已存在",
+    "urlRequired": "URL 是必需的",
+    "processingError": "处理书签时出错"
+  }
+}
