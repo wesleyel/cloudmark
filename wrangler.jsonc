@@ -4,12 +4,12 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "main": ".open-next/worker.js",
+  "main": ".output/server/index.mjs",
   "name": "cloudmark",
   "compatibility_date": "2025-02-14",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": ".open-next/assets",
+    "directory": ".output/public",
     "binding": "ASSETS",
   },
   "observability": {

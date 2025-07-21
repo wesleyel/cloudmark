@@ -33,19 +33,19 @@ Try it online: [cloudmark.site](https://cloudmark.site)
 
 ### Prerequisites
 
-- Node.js 15+ and pnpm
+- Node.js 18+ and npm/yarn
 - Cloudflare account (for preview and deployment)
 
 ### Install Dependencies
 
 ```bash
-pnpm install
+npm install
 ```
 
 ### Development Mode
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000) to see the result.
@@ -53,13 +53,13 @@ Visit [http://localhost:3000](http://localhost:3000) to see the result.
 ### Local Preview with Cloudflare Pages
 
 ```bash
-pnpm preview
+npm run preview
 ```
 
 ### Build and Deploy
 
 ```bash
-pnpm deploy
+npm run deploy
 ```
 
 ## Cloudflare Configuration
@@ -85,11 +85,27 @@ Cloudmark uses Cloudflare KV to store bookmark data. You need to:
 
 ## Technology Stack
 
-- [Next.js](https://nextjs.org/) - React framework
+- [Nuxt 3](https://nuxt.com/) - Vue.js framework
+- [Vue 3](https://vuejs.org/) - Progressive JavaScript framework
 - [Cloudflare Pages](https://pages.cloudflare.com/) - Hosting and serverless functions
 - [Cloudflare KV](https://developers.cloudflare.com/workers/runtime-apis/kv/) - Data storage
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [Next-Intl](https://next-intl-docs.vercel.app/) - Internationalization
+- [Vue i18n](https://vue-i18n.intlify.dev/) - Internationalization
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+
+## Migration from Next.js
+
+This project has been migrated from Next.js + React to Nuxt 3 + Vue 3. Key changes include:
+
+- **Framework**: Next.js → Nuxt 3
+- **UI Library**: React → Vue 3 with Composition API
+- **Routing**: Next.js Router → Vue Router (via Nuxt)
+- **State Management**: React hooks → Vue Composition API
+- **Server**: Next.js API Routes → Nuxt 3 Server API
+- **Internationalization**: next-intl → Vue i18n
+- **Build**: Next.js build → Nitro (Nuxt's build engine)
+
+All functionality has been preserved while modernizing the tech stack.
 
 ## License
 
