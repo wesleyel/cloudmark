@@ -1,7 +1,7 @@
 # Cloudmark
 
 [![AGPL LICENSE](https://img.shields.io/badge/LICENSE-AGPL-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
-[![Try It Online](https://img.shields.io/badge/TryIt-Online-orange.svg)](https://cloudmark.site)
+[![Try It Online](https://img.shields.io/badge/TryIt-Online-orange.svg)](https://cloudmark.yxra3603.workers.dev/)
 
 [中文文档](README.zh.md)
 
@@ -9,7 +9,7 @@
 
 Cloudmark is a universal cloud bookmark management tool that allows you to easily save and access your bookmarks from anywhere. No login or registration required - simply create your personalized bookmark collection and start using it right away.
 
-Try it online: [cloudmark.site](https://cloudmark.site)
+Try it online: [https://cloudmark.yxra3603.workers.dev/](https://cloudmark.yxra3603.workers.dev/)
 
 ## Key Features
 
