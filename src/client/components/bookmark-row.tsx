@@ -1,5 +1,4 @@
 import { memo, type MouseEvent } from "react";
-import { formatDistanceToNow } from "date-fns";
 import { Check, ExternalLink, Pencil, Trash2 } from "lucide-react";
 import type { BookmarkInstance } from "@/shared/types";
 import { cn, getDomain } from "@/shared/utils";
@@ -7,6 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "@/client/i18n/context";
 import { BookmarkIcon } from "@/client/components/bookmark-icon";
+
+/** Localized relative date — 今天 / 昨天 / N 天前 / N 周前 / N 个月前 / N 年前 */
+function relativeDateLabel(
+  iso: string,
+  t: (key: string, vars?: Record<string, string | number>) => string,
+): string {
+  const days = Math.floor(
+    (Date.now() - new Date(iso).getTime()) / 86_400_000,
+  );
+  if (days <= 0) return t("today");
+  if (days === 1) return t("yesterday");
+  if (days < 7) return t("daysAgo", { n: days });
+  if (days < 30) return t("weeksAgo", { n: Math.floor(days / 7) });
+  if (days < 365) return t("monthsAgo", { n: Math.floor(days / 30) });
+  return t("yearsAgo", { n: Math.floor(days / 365) });
+}
 
 interface BookmarkRowProps {
   bookmark: BookmarkInstance;
@@ -39,9 +54,7 @@ export const BookmarkRow = memo(function BookmarkRow({
 }: BookmarkRowProps) {
   const t = useTranslations("Components.BookmarkCard");
   const domain = getDomain(bookmark.url);
-  const date = formatDistanceToNow(new Date(bookmark.createdAt), {
-    addSuffix: true,
-  });
+  const date = relativeDateLabel(bookmark.createdAt, t);
 
   return (
     <div

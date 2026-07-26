@@ -1,39 +1,73 @@
 {
   "HomePage": {
-    "quickstart": "开始使用",
-    "demo": "试用演示",
     "featuresLabel": "功能",
-    "title": "简单的云端书签管理",
-    "description": "一键保存网页，任意设备打开。无需注册账号。",
-    "cta": {
-      "title": "创建你的收藏",
-      "description": "取个名字，安装书签按钮，就可以开始保存。",
-      "button": "开始使用"
+    "statsLabel": "Cloudmark 的几个数字",
+    "hero": {
+      "line1": "一键保存网页，随处打开。",
+      "line2": "无需注册。",
+      "sub": "Cloudmark 是一个云端书签收藏。取一个收藏名称，把保存按钮拖进浏览器书签栏；此后浏览到值得留下的页面，点一下，它就在云端等你——手机、电脑、任何浏览器，凭链接即可打开。",
+      "cta": "开始使用",
+      "demo": "试用演示",
+      "hint": "四步完成设置，约一分钟"
+    },
+    "stats": {
+      "click": "次点击，完成保存",
+      "accounts": "个账号需要注册",
+      "shortcuts": "个键盘快捷键",
+      "languages": "种界面语言"
     },
     "features": {
+      "kicker": "它做三件事",
       "save": {
         "title": "一键保存",
-        "desc": "把书签按钮拖到浏览器书签栏，浏览时点一下即可收藏当前页面。"
+        "desc": "保存按钮住在浏览器的书签栏里。读到想留下的页面，点它一下：标题、网址、图标即刻入册，不打断你正在读的东西。这是整个产品对你唯一的要求。"
       },
       "categorize": {
         "title": "分类整理",
-        "desc": "给书签加分类，列表变长时也能快速筛选。"
+        "desc": "给书签加上分类，列表长了也不乱。搜索、筛选、排序都在一屏之内完成；数字键 1 到 9 直接切换分类，像翻一本装订好的目录。"
       },
       "access": {
         "title": "随处打开",
-        "desc": "收藏就是一个链接，手机、电脑、别的浏览器都能访问。"
-      },
-      "private": {
-        "title": "写入令牌",
-        "desc": "分享链接可查看；只有持有写入令牌才能增删改。"
+        "desc": "一个收藏就是一个链接。发给自己，发给同事，在手机上、在别人的电脑上打开，它都在。查看无需任何凭证——写入才需要。"
       }
+    },
+    "security": {
+      "kicker": "安全模型",
+      "title": "查看凭链接，写入凭令牌。",
+      "note": "没有账号，也就没有密码可丢。每个收藏配一枚写入令牌：知道链接的人可以翻阅，持有令牌的人才能增删改。令牌只存在你的浏览器与保存按钮里，服务器只保留它的散列——我们自己也读不出来。",
+      "thAction": "操作",
+      "thRequires": "需要什么",
+      "rowViewA": "查看收藏",
+      "rowViewB": "知道链接",
+      "rowWriteA": "添加 / 编辑 / 删除",
+      "rowWriteB": "写入令牌",
+      "rowSaveA": "一键保存",
+      "rowSaveB": "按钮内置令牌"
+    },
+    "keys": {
+      "kicker": "键盘优先",
+      "search": "搜索",
+      "nav": "上下移动",
+      "new": "添加书签",
+      "edit": "编辑",
+      "del": "删除",
+      "cat": "切换分类",
+      "help": "全部快捷键"
+    },
+    "close": {
+      "title": "创建你的收藏",
+      "sub": "取一个名称——它就是你的链接。安装保存按钮，添加第一条书签，收藏即归你所有。",
+      "placeholder": "my-marks",
+      "cta": "创建收藏"
     }
   },
   "NotFoundPage": {
+    "kicker": "这一页不在册",
     "title": "页面不存在",
     "errorCode": "404",
-    "description": "页面不存在，或收藏名称输入有误。",
-    "home": "返回首页"
+    "description": "页面不存在，或收藏名称输入有误。检查一下链接的拼写，或从首页重新开始。",
+    "home": "返回首页",
+    "demo": "打开演示"
   },
   "Theme": {
     "toggle": "主题",
@@ -43,8 +77,9 @@
     "cycleHint": "Shift+T 切换主题"
   },
   "DocPage": {
-    "title": "快速开始",
-    "description": "四步完成设置，点开每一步即可。",
+    "kicker": "快速开始",
+    "title": "四步，收藏归你。",
+    "description": "不注册账号，不填邮箱。取一个名称、备份一枚令牌、拖两个按钮——之后的一切只是点一下。",
     "loading": "加载中...",
     "setup": {
       "next": "继续",
@@ -52,23 +87,32 @@
       "syncFailed": "无法保存收藏",
       "claiming": "正在认领集合…",
       "steps": {
-        "name": "集合名称",
-        "token": "写入令牌",
+        "name": "取一个收藏名称",
+        "token": "备份写入令牌",
         "settings": "偏好设置",
-        "install": "安装按钮"
+        "install": "安装两个按钮"
       },
       "name": {
+        "desc": "名称（mark）就是你的链接。用有意义的词组，好记也好分享；不想取就随机一个。",
         "random": "随机名称",
         "tooShort": "至少 4 个字符"
       },
       "token": {
+        "desc": "令牌在本机生成，服务器只存散列、无法找回。先复制或下载备份，再继续。",
+        "warn": "持有此令牌的人可以修改你的收藏，请勿公开分享。",
         "copy": "复制",
         "download": "下载备份",
         "hint": "先备份，再继续。令牌只在本机生成，服务器无法找回。",
         "mustBackup": "请先复制或下载备份，再继续",
         "claimed": "集合已认领，令牌已绑定"
       },
+      "settings": {
+        "desc": "收藏默认公开：知道链接即可查看。私密收藏则连查看也需要令牌。"
+      },
       "install": {
+        "desc": "把下面两个按钮拖到浏览器书签栏：一个在任意网页一键保存，一个随时打开你的收藏。",
+        "bar": "浏览器书签栏",
+        "barHint": "拖入后，在任意网页点「保存」即可收藏当前页面。",
         "bookmarksBar": "书签栏",
         "saveChip": "保存",
         "saveChipNamed": "保存到 {mark}",
@@ -90,15 +134,25 @@
     },
     "demo": {
       "title": "先看看？",
-      "description": "打开演示收藏，先体验界面。",
+      "description": "打开演示收藏，不影响你的设置。",
       "button": "打开演示"
     }
   },
   "Navigation": {
-    "quickstart": "快速入门",
+    "home": "首页",
+    "features": "功能",
+    "security": "安全",
+    "quickstart": "快速开始",
+    "demo": "演示",
+    "getStarted": "开始使用",
     "github": "GitHub",
     "switchLanguage": "切换语言",
     "skipToContent": "跳到主要内容"
+  },
+  "Footer": {
+    "license": "以 AGPL 许可发布",
+    "openSource": "开源于 GitHub",
+    "themeHint": "切换主题"
   },
   "BookmarksPage": {
     "title": "书签收藏",
@@ -161,7 +215,13 @@
       "delete": "删除",
       "deleteConfirm": "确定要删除这个书签吗？",
       "select": "选中",
-      "deselect": "取消选中"
+      "deselect": "取消选中",
+      "today": "今天",
+      "yesterday": "昨天",
+      "daysAgo": "{n} 天前",
+      "weeksAgo": "{n} 周前",
+      "monthsAgo": "{n} 个月前",
+      "yearsAgo": "{n} 年前"
     },
     "BookmarkDialog": {
       "addTitle": "添加书签",
@@ -297,13 +357,13 @@
     "edit": "编辑选中",
     "delete": "删除选中",
     "filterCategory": "按分类筛选（0 = 全部）",
-    "clear": "清除搜索 / 筛选",
+    "clear": "清除筛选",
     "help": "显示快捷键帮助",
     "theme": "循环切换主题（系统 / 浅色 / 深色）",
-    "helpHint": "快捷键帮助",
+    "helpHint": "查看快捷键",
     "categories": "分类",
     "all": "全部",
-    "searchPlaceholder": "筛选标题、网址、备注…",
+    "searchPlaceholder": "搜索标题、网址或描述…",
     "sortNewest": "最新",
     "sortOldest": "最早",
     "sortTitle": "标题",
@@ -312,8 +372,8 @@
     "colCategory": "分类",
     "colDate": "添加时间",
     "noResults": "没有匹配的书签",
-    "countAll": "{count} 个书签",
-    "countFiltered": "{shown} / {total}",
+    "countAll": "共 {count} 条书签",
+    "countFiltered": "显示 {shown} / {total} 条",
     "extendSelect": "扩展多选",
     "toggleSelect": "切换选中",
     "selectAll": "全选（当前列表）",

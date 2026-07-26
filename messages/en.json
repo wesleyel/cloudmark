@@ -1,39 +1,73 @@
 {
   "HomePage": {
-    "quickstart": "Get started",
-    "demo": "Try demo",
     "featuresLabel": "Features",
-    "title": "A simple cloud bookmark manager",
-    "description": "Save pages with one click and open them from any device. No account needed.",
-    "cta": {
-      "title": "Create your collection",
-      "description": "Pick a name, install the bookmarklet, and start saving.",
-      "button": "Get started"
+    "statsLabel": "Cloudmark, by the numbers",
+    "hero": {
+      "line1": "Save any page in one click.",
+      "line2": "No account required.",
+      "sub": "Cloudmark is a cloud bookmark collection. Pick a name, drag the save button to your bookmarks bar, and from then on any page worth keeping is one click away — on your phone, your laptop, any browser, by link alone.",
+      "cta": "Get started",
+      "demo": "Try the demo",
+      "hint": "Four steps, about a minute"
+    },
+    "stats": {
+      "click": "click to save a page",
+      "accounts": "accounts to register",
+      "shortcuts": "keyboard shortcuts",
+      "languages": "interface languages"
     },
     "features": {
+      "kicker": "It does three things",
       "save": {
         "title": "One-click save",
-        "desc": "Drag a bookmarklet to your browser bar, then save the current page in one click."
+        "desc": "The save button lives in your bookmarks bar. When a page is worth keeping, click it once: title, URL and icon are filed away without interrupting what you are reading. That is all the product ever asks of you."
       },
       "categorize": {
-        "title": "Categories",
-        "desc": "Group bookmarks into categories and filter the list when it grows."
+        "title": "Tidy categories",
+        "desc": "Give bookmarks a category and long lists stay legible. Search, filter and sort happen on one screen; the number keys 1 through 9 switch categories like turning to a chapter in a bound index."
       },
       "access": {
         "title": "Open anywhere",
-        "desc": "Your collection is a link. Open it on phone, laptop, or another browser."
-      },
-      "private": {
-        "title": "Write token",
-        "desc": "Anyone can view a shared link. Only you can edit with the write token."
+        "desc": "A collection is a link. Send it to yourself, to a colleague; open it on a phone or on someone else’s machine and it is simply there. Reading needs no credentials — only writing does."
       }
+    },
+    "security": {
+      "kicker": "Security model",
+      "title": "Read by link, write by token.",
+      "note": "With no accounts there are no passwords to lose. Each collection carries one write token: anyone with the link may browse, only the token holder may change things. The token lives in your browser and your save button; the server keeps only its hash — even we cannot read it back.",
+      "thAction": "Action",
+      "thRequires": "Requires",
+      "rowViewA": "View a collection",
+      "rowViewB": "Knowing the link",
+      "rowWriteA": "Add / edit / delete",
+      "rowWriteB": "The write token",
+      "rowSaveA": "One-click save",
+      "rowSaveB": "Token inside the button"
+    },
+    "keys": {
+      "kicker": "Keyboard first",
+      "search": "search",
+      "nav": "move up / down",
+      "new": "new bookmark",
+      "edit": "edit",
+      "del": "delete",
+      "cat": "switch category",
+      "help": "all shortcuts"
+    },
+    "close": {
+      "title": "Create your collection",
+      "sub": "Pick a name — it becomes your link. Install the save button, add a first bookmark, and the collection is yours.",
+      "placeholder": "my-marks",
+      "cta": "Create collection"
     }
   },
   "NotFoundPage": {
+    "kicker": "Not in the index",
     "title": "Page not found",
     "errorCode": "404",
-    "description": "This page does not exist, or the collection name is wrong.",
-    "home": "Back home"
+    "description": "The page does not exist, or the collection name was mistyped. Check the spelling of the link, or start again from the home page.",
+    "home": "Back to home",
+    "demo": "Open the demo"
   },
   "Theme": {
     "toggle": "Theme",
@@ -43,8 +77,9 @@
     "cycleHint": "Shift+T cycles theme"
   },
   "DocPage": {
-    "title": "Quick start",
-    "description": "Four short steps. Click each one to set up.",
+    "kicker": "Quickstart",
+    "title": "Four steps to your collection.",
+    "description": "No account, no email. Pick a name, back up one token, drag two buttons — everything after that is a single click.",
     "loading": "Loading...",
     "setup": {
       "next": "Continue",
@@ -52,23 +87,32 @@
       "syncFailed": "Could not save collection",
       "claiming": "Claiming collection…",
       "steps": {
-        "name": "Collection name",
-        "token": "Write token",
+        "name": "Name your collection",
+        "token": "Back up the write token",
         "settings": "Preferences",
-        "install": "Install button"
+        "install": "Install the two buttons"
       },
       "name": {
+        "desc": "The name (mark) becomes your link. Use a meaningful phrase — easy to remember, easy to share — or roll a random one.",
         "random": "Random name",
         "tooShort": "Use at least 4 characters"
       },
       "token": {
+        "desc": "The token is generated on this machine; the server keeps only its hash and cannot recover it. Copy or download it before you continue.",
+        "warn": "Anyone holding this token can change your collection. Never share it publicly.",
         "copy": "Copy",
         "download": "Download backup",
         "hint": "Back it up before continuing. The token is created on this device — the server cannot recover it.",
         "mustBackup": "Copy or download a backup before continuing",
         "claimed": "Collection claimed and token bound"
       },
+      "settings": {
+        "desc": "Collections are public by default: the link is enough to read. A private collection requires the token even to view."
+      },
       "install": {
+        "desc": "Drag both buttons below to your browser’s bookmarks bar: one saves any page in a click, the other opens your collection.",
+        "bar": "Bookmarks bar",
+        "barHint": "Once installed, click “Save” on any page to file it away.",
         "bookmarksBar": "Bookmarks bar",
         "saveChip": "Save",
         "saveChipNamed": "Save to {mark}",
@@ -89,16 +133,26 @@
       }
     },
     "demo": {
-      "title": "Just browsing?",
-      "description": "Open the demo collection to try the interface first.",
-      "button": "Open demo"
+      "title": "Look first?",
+      "description": "Open the demo collection — it won’t touch your setup.",
+      "button": "Open the demo"
     }
   },
   "Navigation": {
-    "quickstart": "Quick Start",
+    "home": "Home",
+    "features": "Features",
+    "security": "Security",
+    "quickstart": "Quickstart",
+    "demo": "Demo",
+    "getStarted": "Get started",
     "github": "GitHub",
     "switchLanguage": "Switch Language",
     "skipToContent": "Skip to content"
+  },
+  "Footer": {
+    "license": "Released under the AGPL license",
+    "openSource": "open source on GitHub",
+    "themeHint": "cycle theme"
   },
   "BookmarksPage": {
     "title": "Bookmarks",
@@ -170,7 +224,13 @@
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this bookmark?",
       "select": "Select",
-      "deselect": "Deselect"
+      "deselect": "Deselect",
+      "today": "today",
+      "yesterday": "yesterday",
+      "daysAgo": "{n}d ago",
+      "weeksAgo": "{n}w ago",
+      "monthsAgo": "{n}mo ago",
+      "yearsAgo": "{n}y ago"
     },
     "BookmarkDialog": {
       "addTitle": "Add Bookmark",
@@ -306,13 +366,13 @@
     "edit": "Edit selected",
     "delete": "Delete selected",
     "filterCategory": "Filter by category (0 = all)",
-    "clear": "Clear search / filters",
+    "clear": "Clear filters",
     "help": "Show this help",
     "theme": "Cycle theme (system / light / dark)",
-    "helpHint": "keyboard shortcuts",
+    "helpHint": "shortcuts",
     "categories": "Categories",
     "all": "All",
-    "searchPlaceholder": "Filter title, URL, notes…",
+    "searchPlaceholder": "Search title, URL or notes…",
     "sortNewest": "Newest",
     "sortOldest": "Oldest",
     "sortTitle": "Title",
@@ -322,7 +382,7 @@
     "colDate": "Added",
     "noResults": "No bookmarks match your filters",
     "countAll": "{count} bookmarks",
-    "countFiltered": "{shown} / {total}",
+    "countFiltered": "{shown} of {total} shown",
     "extendSelect": "Extend multi-select",
     "toggleSelect": "Toggle selection",
     "selectAll": "Select all (filtered)",

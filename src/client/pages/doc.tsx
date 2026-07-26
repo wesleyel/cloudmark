@@ -5,20 +5,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import {
   BookmarkPlus,
   Check,
-  ChevronDown,
   Copy,
   Download,
   ExternalLink,
-  Hash,
-  KeyRound,
   Loader2,
   RefreshCcw,
-  Settings2,
-  Shield,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -40,21 +35,20 @@ import { claimCollectionApi } from "@/client/lib/api";
 import { useTranslations } from "@/client/i18n/context";
 import { BookmarkletLink } from "@/client/components/bookmarklet-link";
 import { CollectionSettingsFields } from "@/client/components/collection-settings-fields";
-import { DragBookmarkletDemo } from "@/client/components/drag-bookmarklet-demo";
 
 type StepId = "name" | "token" | "settings" | "install";
 
-const STEPS: StepId[] = ["name", "token", "settings", "install"];
+const MARK_PATTERN = /^[a-zA-Z0-9_-]{4,64}$/;
 
 export function DocPage() {
   const t = useTranslations("DocPage");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [mark, setMark] = useState("");
   const [writeToken, setWriteToken] = useState("");
   const [settings, setSettings] = useState<CollectionSettings>({
     ...DEFAULT_COLLECTION_SETTINGS,
   });
-  const [openStep, setOpenStep] = useState<StepId>("name");
   const [done, setDone] = useState<Partial<Record<StepId, boolean>>>({});
   const [copied, setCopied] = useState<"token" | "code" | null>(null);
   const [syncing, setSyncing] = useState(false);
@@ -68,11 +62,14 @@ export function DocPage() {
   }, [baseUrl, mark, writeToken]);
 
   useEffect(() => {
-    const m = generateRandomMark();
+    // Prefill from home page's "create your collection" input when present
+    const requested = searchParams.get("mark") ?? "";
+    const m = MARK_PATTERN.test(requested) ? requested : generateRandomMark();
     const tok = generateWriteToken();
     setMark(m);
     setWriteToken(tok);
     setStoredWriteToken(m, tok);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -97,7 +94,6 @@ export function DocPage() {
     setStoredWriteToken(nextMark, nextToken);
     setClaimed(false);
     setDone({});
-    setOpenStep("name");
   };
 
   const syncToServer = useCallback(
@@ -132,7 +128,6 @@ export function DocPage() {
       // Bind token to the chosen mark before claim
       setStoredWriteToken(mark, writeToken);
       setDone((d) => ({ ...d, name: true }));
-      setOpenStep("token");
       return;
     }
     if (step === "token") {
@@ -144,8 +139,7 @@ export function DocPage() {
       const ok = await syncToServer({ ...DEFAULT_COLLECTION_SETTINGS });
       if (!ok) return;
       toast.success(t("setup.token.claimed"));
-      setDone((d) => ({ ...d, token: true }));
-      setOpenStep("settings");
+      setDone((d) => ({ ...d, name: true, token: true }));
       return;
     }
     if (step === "settings") {
@@ -153,16 +147,11 @@ export function DocPage() {
       const ok = await syncToServer(settings);
       if (!ok) return;
       setDone((d) => ({ ...d, settings: true }));
-      setOpenStep("install");
       return;
     }
     if (step === "install") {
       setDone((d) => ({ ...d, install: true }));
     }
-  };
-
-  const toggleStep = (step: StepId) => {
-    setOpenStep((cur) => (cur === step ? cur : step));
   };
 
   if (!mark) {
@@ -174,7 +163,7 @@ export function DocPage() {
   }
 
   return (
-    <div className="container relative max-w-xl py-10 sm:py-14">
+    <div className="container relative max-w-3xl py-14 sm:py-16">
       <div
         className="pointer-events-none absolute inset-x-0 -top-8 -z-10 h-48 opacity-70"
         aria-hidden
@@ -182,373 +171,315 @@ export function DocPage() {
         <div className="orb orb-a left-1/2 h-40 w-40 -translate-x-1/2" />
       </div>
 
-      <header className="reveal mb-8 text-center">
-        <h1 className="display-font text-3xl font-bold tracking-tight sm:text-4xl">
+      {/* Title block */}
+      <header className="reveal">
+        <p className="mb-3.5 text-xs font-semibold uppercase tracking-[0.08em] text-primary">
+          {t("kicker")}
+        </p>
+        <h1 className="display-font text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl">
           <span className="text-gradient">{t("title")}</span>
         </h1>
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+        <p className="mt-4 max-w-[52ch] text-base leading-relaxed text-muted-foreground">
           {t("description")}
         </p>
       </header>
 
-      {/* Progress dots */}
-      <ol className="reveal reveal-delay-1 mb-6 flex items-center justify-center gap-2">
-        {STEPS.map((id, i) => {
-          const active = openStep === id;
-          const finished = Boolean(done[id]);
-          return (
-            <li key={id} className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => toggleStep(id)}
-                className={cn(
-                  "flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors",
-                  finished && "bg-primary text-primary-foreground",
-                  active && !finished && "bg-primary/15 text-primary ring-2 ring-primary/30",
-                  !active && !finished && "bg-muted text-muted-foreground",
-                )}
-                aria-label={t(`setup.steps.${id}`)}
-              >
-                {finished ? <Check className="h-3.5 w-3.5" /> : i + 1}
-              </button>
-              {i < STEPS.length - 1 && (
-                <span
-                  className={cn(
-                    "h-px w-6 sm:w-10",
-                    finished ? "bg-primary/50" : "bg-border",
-                  )}
-                />
-              )}
-            </li>
-          );
-        })}
-      </ol>
+      <div className="mt-11 h-px bg-border/70" aria-hidden />
 
-      <div className="reveal reveal-delay-2 space-y-3">
-        {/* Step 1 — name */}
-        <StepCard
-          open={openStep === "name"}
-          done={Boolean(done.name)}
-          index={1}
-          icon={Hash}
-          title={t("setup.steps.name")}
-          onToggle={() => toggleStep("name")}
-        >
-          <div className="space-y-3">
-            <Input
-              value={mark}
-              onChange={(e) => {
-                setMark(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ""));
-                setClaimed(false);
-                setDone((d) => ({
-                  ...d,
-                  token: false,
-                  settings: false,
-                  install: false,
-                }));
-              }}
-              className="h-11 font-mono text-center text-base"
-              spellCheck={false}
-              autoComplete="off"
-            />
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={regenerateAll}
-              >
-                <RefreshCcw className="mr-1.5 h-3.5 w-3.5" />
-                {t("setup.name.random")}
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className="rounded-full"
-                onClick={() => void completeStep("name")}
-              >
-                {t("setup.next")}
-              </Button>
-            </div>
-            <p className="text-center text-2xs text-muted-foreground">
-              {baseUrl}/{mark || "…"}
-            </p>
-          </div>
-        </StepCard>
-
-        {/* Step 2 — token */}
-        <StepCard
-          open={openStep === "token"}
-          done={Boolean(done.token)}
-          index={2}
-          icon={KeyRound}
-          title={t("setup.steps.token")}
-          onToggle={() => toggleStep("token")}
-        >
-          <div className="space-y-3">
-            <div className="rounded-xl border border-border/70 bg-muted/30 px-3 py-2.5">
-              <p className="break-all font-mono text-xs leading-relaxed">
-                {writeToken}
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={() => void copy("token")}
-              >
-                {copied === "token" ? (
-                  <Check className="mr-1.5 h-3.5 w-3.5" />
-                ) : (
-                  <Copy className="mr-1.5 h-3.5 w-3.5" />
-                )}
-                {t("setup.token.copy")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={() => {
-                  setStoredWriteToken(mark, writeToken);
-                  downloadTokenBackup(mark, writeToken);
-                  setTokenBackupAcknowledged(mark, true);
-                  toast.success(t("setup.token.download"));
-                }}
-              >
-                <Download className="mr-1.5 h-3.5 w-3.5" />
-                {t("setup.token.download")}
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className="rounded-full"
-                disabled={syncing}
-                onClick={() => void completeStep("token")}
-              >
-                {syncing ? (
-                  <>
-                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                    {t("setup.claiming")}
-                  </>
-                ) : (
-                  t("setup.next")
-                )}
-              </Button>
-            </div>
-            <p className="flex items-start justify-center gap-1.5 text-center text-2xs text-muted-foreground">
-              <Shield className="mt-0.5 h-3 w-3 shrink-0 text-primary" />
-              {t("setup.token.hint")}
-            </p>
-          </div>
-        </StepCard>
-
-        {/* Step 3 — settings */}
-        <StepCard
-          open={openStep === "settings"}
-          done={Boolean(done.settings)}
-          index={3}
-          icon={Settings2}
-          title={t("setup.steps.settings")}
-          onToggle={() => toggleStep("settings")}
-        >
-          <CollectionSettingsFields
-            value={settings}
-            onChange={(next) => {
-              setSettings(next);
+      {/* Step 1 — name */}
+      <StepSection
+        index="01"
+        done={Boolean(done.name)}
+        title={t("setup.steps.name")}
+        desc={t("setup.name.desc")}
+      >
+        <div className="flex max-w-[420px] gap-3">
+          <Input
+            value={mark}
+            onChange={(e) => {
+              setMark(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ""));
               setClaimed(false);
+              setDone({});
             }}
-            disabled={syncing}
+            className="h-10 flex-1 rounded-full px-4 font-mono text-sm tabular-nums"
+            spellCheck={false}
+            autoComplete="off"
+            aria-label={t("setup.steps.name")}
           />
-          <div className="mt-4 flex justify-center">
-            <Button
-              type="button"
-              size="sm"
-              className="rounded-full"
-              disabled={syncing}
-              onClick={() => void completeStep("settings")}
-            >
-              {syncing ? (
-                <>
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                  {openStep === "token" ? t("setup.claiming") : t("setup.saving")}
-                </>
-              ) : (
-                t("setup.next")
-              )}
-            </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 shrink-0 rounded-full"
+            onClick={regenerateAll}
+          >
+            <RefreshCcw className="mr-1.5 h-3.5 w-3.5" />
+            {t("setup.name.random")}
+          </Button>
+        </div>
+        <p className="mt-2.5 text-xs tabular-nums text-muted-foreground">
+          {baseUrl}/{mark || "…"}
+        </p>
+        <StepContinue
+          syncing={false}
+          label={t("setup.next")}
+          onClick={() => void completeStep("name")}
+        />
+      </StepSection>
+
+      {/* Step 2 — token */}
+      <StepSection
+        index="02"
+        done={Boolean(done.token)}
+        title={t("setup.steps.token")}
+        desc={t("setup.token.desc")}
+      >
+        <div className="flex max-w-[480px] items-stretch gap-3">
+          <code className="flex min-w-0 flex-1 items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-border/70 bg-muted/40 px-4 py-2 font-mono text-xs text-foreground/90">
+            {writeToken}
+          </code>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 shrink-0 rounded-full"
+            onClick={() => void copy("token")}
+          >
+            {copied === "token" ? (
+              <Check className="mr-1.5 h-3.5 w-3.5" />
+            ) : (
+              <Copy className="mr-1.5 h-3.5 w-3.5" />
+            )}
+            {t("setup.token.copy")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 shrink-0 rounded-full"
+            onClick={() => {
+              setStoredWriteToken(mark, writeToken);
+              downloadTokenBackup(mark, writeToken);
+              setTokenBackupAcknowledged(mark, true);
+              toast.success(t("setup.token.download"));
+            }}
+            title={t("setup.token.download")}
+          >
+            <Download className="h-3.5 w-3.5" />
+            <span className="sr-only">{t("setup.token.download")}</span>
+          </Button>
+        </div>
+        <p className="mt-2.5 text-xs font-medium text-primary">
+          {t("setup.token.warn")}
+        </p>
+        <StepContinue
+          syncing={syncing}
+          syncingLabel={t("setup.claiming")}
+          label={t("setup.next")}
+          onClick={() => void completeStep("token")}
+        />
+      </StepSection>
+
+      {/* Step 3 — preferences */}
+      <StepSection
+        index="03"
+        done={Boolean(done.settings)}
+        title={t("setup.steps.settings")}
+        desc={t("setup.settings.desc")}
+      >
+        <CollectionSettingsFields
+          value={settings}
+          onChange={(next) => {
+            setSettings(next);
+            setClaimed(false);
+          }}
+          disabled={syncing}
+        />
+        <StepContinue
+          syncing={syncing}
+          syncingLabel={t("setup.saving")}
+          label={t("setup.next")}
+          onClick={() => void completeStep("settings")}
+        />
+      </StepSection>
+
+      {/* Step 4 — install the two buttons */}
+      <StepSection
+        index="04"
+        done={Boolean(done.install)}
+        title={t("setup.steps.install")}
+        desc={t("setup.install.desc")}
+        last
+      >
+        {/* Faux bookmarks bar with the two real draggable chips */}
+        <div className="max-w-[480px] overflow-hidden rounded-xl border border-border/70 bg-card/40">
+          <div className="border-b border-border/70 bg-muted/50 px-3.5 py-2 text-2xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+            {t("setup.install.bar")}
           </div>
-        </StepCard>
-
-        {/* Step 4 — install */}
-        <StepCard
-          open={openStep === "install"}
-          done={Boolean(done.install)}
-          index={4}
-          icon={BookmarkPlus}
-          title={t("setup.steps.install")}
-          onToggle={() => toggleStep("install")}
-        >
-          <DragBookmarkletDemo className="mb-4" mark={mark} />
-
-          <div className="space-y-3">
-            <p className="text-center text-xs font-medium text-foreground">
-              {t("setup.install.dragBoth")}
-            </p>
-
-            <div className="grid gap-2 sm:grid-cols-2">
-              {/* 1. Bookmarklet — drag to bar */}
-              <div className="flex flex-col items-center gap-1.5 rounded-xl border border-primary/25 bg-primary/5 px-3 py-3">
-                <span className="text-2xs font-semibold uppercase tracking-wider text-primary">
-                  {t("setup.install.itemSave")}
-                </span>
-                <BookmarkletLink code={bookmarkletCode} className="inline-flex w-full justify-center">
-                  <Button
-                    size="sm"
-                    className="h-10 w-full max-w-[16rem] cursor-grab rounded-full px-3 shadow-glow active:cursor-grabbing"
-                    asChild
-                  >
-                    <span className="flex items-center justify-center gap-1.5 truncate">
-                      <BookmarkPlus className="h-3.5 w-3.5 shrink-0" />
-                      <span className="truncate">{t("setup.install.saveButton", { mark })}</span>
-                    </span>
-                  </Button>
-                </BookmarkletLink>
-                <p className="text-center text-2xs text-muted-foreground">
-                  {t("setup.install.dragSaveHint")}
-                </p>
-              </div>
-
-              {/* 2. Collection shortcut — drag normal link to bar */}
-              <div className="flex flex-col items-center gap-1.5 rounded-xl border border-border/70 bg-muted/30 px-3 py-3">
-                <span className="text-2xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  {t("setup.install.itemOpen")}
-                </span>
-                <a
-                  href={`/${mark}`}
-                  draggable
-                  className="inline-flex w-full max-w-[16rem] justify-center"
-                  onClick={(e) => {
-                    // Prefer drag-install; click opens after ensuring claim.
-                    e.preventDefault();
-                    void (async () => {
-                      if (!claimed) {
-                        const ok = await syncToServer();
-                        if (!ok) return;
-                      }
-                      navigate(`/${mark}`);
-                    })();
-                  }}
-                >
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="h-10 w-full cursor-grab rounded-full active:cursor-grabbing"
-                    asChild
-                  >
-                    <span className="flex items-center justify-center gap-1.5 truncate">
-                      <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                      <span className="truncate">{t("setup.install.openCollection")}</span>
-                    </span>
-                  </Button>
-                </a>
-                <p className="text-center text-2xs text-muted-foreground">
-                  {t("setup.install.dragOpenHint")}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+          <div className="flex flex-wrap gap-2.5 px-3.5 py-4">
+            <BookmarkletLink code={bookmarkletCode} className="inline-flex">
               <Button
-                type="button"
                 size="sm"
-                variant="ghost"
-                className="rounded-full"
-                onClick={() => void copy("code")}
+                className="h-9 cursor-grab rounded-full px-4 shadow-glow active:cursor-grabbing"
+                asChild
               >
-                {copied === "code" ? (
-                  <Check className="mr-1.5 h-3.5 w-3.5" />
-                ) : (
-                  <Copy className="mr-1.5 h-3.5 w-3.5" />
-                )}
-                {t("setup.install.copyCode")}
+                <span className="flex items-center gap-1.5 truncate">
+                  <BookmarkPlus className="h-3.5 w-3.5 shrink-0" />
+                  <span className="max-w-[11rem] truncate">
+                    {t("setup.install.saveButton", { mark })}
+                  </span>
+                </span>
               </Button>
-            </div>
+            </BookmarkletLink>
+            <a
+              href={`/${mark}`}
+              draggable
+              className="inline-flex"
+              onClick={(e) => {
+                // Prefer drag-install; click opens after ensuring claim.
+                e.preventDefault();
+                void (async () => {
+                  if (!claimed) {
+                    const ok = await syncToServer();
+                    if (!ok) return;
+                  }
+                  navigate(`/${mark}`);
+                })();
+              }}
+            >
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-9 cursor-grab rounded-full px-4 active:cursor-grabbing"
+                asChild
+              >
+                <span className="flex items-center gap-1.5 truncate">
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate">
+                    {t("setup.install.openCollection")}
+                  </span>
+                </span>
+              </Button>
+            </a>
           </div>
-        </StepCard>
+        </div>
+        <p className="mt-2.5 text-xs text-muted-foreground">
+          {t("setup.install.barHint")}
+        </p>
+        <div className="mt-3">
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            className="rounded-full text-muted-foreground"
+            onClick={() => void copy("code")}
+          >
+            {copied === "code" ? (
+              <Check className="mr-1.5 h-3.5 w-3.5" />
+            ) : (
+              <Copy className="mr-1.5 h-3.5 w-3.5" />
+            )}
+            {t("setup.install.copyCode")}
+          </Button>
+        </div>
+      </StepSection>
+
+      <div className="h-px bg-border/70" aria-hidden />
+
+      {/* Close — look first? */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-7">
+        <div>
+          <h3 className="font-display text-lg font-semibold tracking-tight sm:text-xl">
+            {t("demo.title")}
+          </h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("demo.description")}
+          </p>
+        </div>
+        <Button asChild className="h-10 shrink-0 rounded-full px-6 shadow-glow">
+          <Link to="/demo">{t("demo.button")}</Link>
+        </Button>
       </div>
     </div>
   );
 }
 
-function StepCard({
-  open,
-  done,
+function StepSection({
   index,
-  icon: Icon,
+  done,
   title,
-  onToggle,
+  desc,
+  last,
   children,
 }: {
-  open: boolean;
+  index: string;
   done: boolean;
-  index: number;
-  icon: typeof Hash;
   title: string;
-  onToggle: () => void;
+  desc: string;
+  last?: boolean;
   children: ReactNode;
 }) {
   return (
     <section
       className={cn(
-        "overflow-hidden rounded-2xl border border-border/70 bg-card/50 shadow-sm backdrop-blur-sm transition-shadow",
-        open && "shadow-elevated ring-1 ring-primary/15",
+        "grid grid-cols-[3rem_minmax(0,1fr)] gap-5 py-9 sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:gap-6",
+        !last && "border-b border-border/70",
       )}
     >
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-muted/30"
-        aria-expanded={open}
-      >
-        <span
-          className={cn(
-            "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
-            done
-              ? "bg-primary text-primary-foreground"
-              : open
-                ? "bg-primary/15 text-primary"
-                : "bg-muted text-muted-foreground",
-          )}
-        >
-          {done ? <Check className="h-3.5 w-3.5" /> : index}
-        </span>
-        <span className="flex min-w-0 flex-1 items-center gap-2">
-          <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-          <span className="truncate font-display text-sm font-semibold tracking-tight">
-            {title}
-          </span>
-        </span>
-        <ChevronDown
-          className={cn(
-            "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200",
-            open && "rotate-180",
-          )}
-        />
-      </button>
-      <div
+      <span
         className={cn(
-          "grid transition-[grid-template-rows] duration-300 ease-out",
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          "display-font relative text-4xl font-bold leading-none tracking-tight tabular-nums sm:text-[2.75rem]",
+          done ? "text-primary/70" : "text-foreground/25",
         )}
+        aria-hidden
       >
-        <div className="overflow-hidden">
-          <div className="border-t border-border/60 px-4 py-4">{children}</div>
-        </div>
+        {index}
+        {done ? (
+          <Check
+            className="absolute -right-1 top-0 h-4 w-4 text-primary"
+            strokeWidth={3}
+          />
+        ) : null}
+      </span>
+      <div className="min-w-0">
+        <h2 className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
+          {title}
+        </h2>
+        <p className="mb-4 mt-2 max-w-[48ch] text-sm leading-relaxed text-muted-foreground">
+          {desc}
+        </p>
+        {children}
       </div>
     </section>
+  );
+}
+
+function StepContinue({
+  syncing,
+  syncingLabel,
+  label,
+  onClick,
+}: {
+  syncing: boolean;
+  syncingLabel?: string;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <div className="mt-4">
+      <Button
+        type="button"
+        size="sm"
+        className="rounded-full px-5"
+        disabled={syncing}
+        onClick={onClick}
+      >
+        {syncing ? (
+          <>
+            <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+            {syncingLabel ?? label}
+          </>
+        ) : (
+          label
+        )}
+      </Button>
+    </div>
   );
 }
