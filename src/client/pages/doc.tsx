@@ -25,6 +25,7 @@ import {
   DEFAULT_COLLECTION_SETTINGS,
   type CollectionSettings,
 } from "@/shared/types";
+import { MARK_MIN_LENGTH, MARK_MAX_LENGTH } from "@/shared/constants";
 import {
   downloadTokenBackup,
   isTokenBackupAcknowledged,
@@ -38,7 +39,8 @@ import { CollectionSettingsFields } from "@/client/components/collection-setting
 
 type StepId = "name" | "token" | "settings" | "install";
 
-const MARK_PATTERN = /^[a-zA-Z0-9_-]{4,64}$/;
+const sanitizeMark = (value: string) =>
+  value.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, MARK_MAX_LENGTH);
 
 export function DocPage() {
   const t = useTranslations("DocPage");
@@ -62,9 +64,11 @@ export function DocPage() {
   }, [baseUrl, mark, writeToken]);
 
   useEffect(() => {
-    // Prefill from home page's "create your collection" input when present
-    const requested = searchParams.get("mark") ?? "";
-    const m = MARK_PATTERN.test(requested) ? requested : generateRandomMark();
+    // Prefill from home page's "create your collection" input when present.
+    // Keep the user's (sanitized) input even if it's too short — step 1
+    // validation will surface the error instead of silently replacing it.
+    const requested = sanitizeMark(searchParams.get("mark") ?? "");
+    const m = requested || generateRandomMark();
     const tok = generateWriteToken();
     setMark(m);
     setWriteToken(tok);
@@ -121,7 +125,7 @@ export function DocPage() {
 
   const completeStep = async (step: StepId) => {
     if (step === "name") {
-      if (mark.trim().length < 4) {
+      if (mark.trim().length < MARK_MIN_LENGTH) {
         toast.error(t("setup.name.tooShort"));
         return;
       }
@@ -197,7 +201,7 @@ export function DocPage() {
           <Input
             value={mark}
             onChange={(e) => {
-              setMark(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ""));
+              setMark(sanitizeMark(e.target.value));
               setClaimed(false);
               setDone({});
             }}
