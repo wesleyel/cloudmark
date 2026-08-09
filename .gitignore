@@ -26,3 +26,6 @@ out
 .idea
 .vscode/*
 !.vscode/settings.json
+
+# Agents
+.claude/

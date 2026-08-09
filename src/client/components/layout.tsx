@@ -4,6 +4,7 @@ import { Languages } from "lucide-react";
 import { useI18n, useTranslations } from "@/client/i18n/context";
 import { useTheme } from "@/client/lib/theme";
 import { ThemeToggle } from "@/client/components/theme-toggle";
+import { GitHubButton } from "@/client/components/github-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/shared/utils";
 
@@ -104,6 +105,8 @@ export function AppLayout() {
                 {locale === "zh" ? "EN" : "中文"}
               </span>
             </Button>
+
+            <GitHubButton />
 
             <Button
               asChild
