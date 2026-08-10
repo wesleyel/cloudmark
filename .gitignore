@@ -4,6 +4,7 @@ node_modules
 
 # build
 dist
+dist-extension
 .wrangler
 .dev.vars
 .open-next
