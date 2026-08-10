@@ -1,0 +1,104 @@
+name: Release Chrome Extension
+
+on:
+  push:
+    tags:
+      - "chrome-v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (for example: chrome-v0.2.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.14.4 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build extension
+        run: pnpm build:extension
+
+      - name: Resolve release tag
+        env:
+          DISPATCH_TAG: ${{ inputs.tag }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "RELEASE_TAG=${DISPATCH_TAG}" >> "$GITHUB_ENV"
+          else
+            echo "RELEASE_TAG=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Validate version
+        run: |
+          MANIFEST_VERSION=$(node -p "require('./dist-extension/manifest.json').version")
+          TAG_VERSION=${RELEASE_TAG#chrome-v}
+          if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
+            echo "Manifest version $MANIFEST_VERSION does not match tag $RELEASE_TAG"
+            exit 1
+          fi
+
+      - name: Package extension
+        run: |
+          cd dist-extension
+          zip -qr ../cloudmark-chrome.zip .
+          cd ..
+          sha256sum cloudmark-chrome.zip > cloudmark-chrome.zip.sha256
+          test "$(unzip -Z1 cloudmark-chrome.zip | grep -c '^manifest.json$')" -eq 1
+          for path in popup.html background.js icons/icon-128.png _locales/en/messages.json _locales/zh_CN/messages.json; do
+            unzip -Z1 cloudmark-chrome.zip | grep -Fxq "$path"
+          done
+
+      - name: Write release notes
+        run: |
+          cat > release-notes.md <<'EOF'
+          ## Install
+
+          1. Download `cloudmark-chrome.zip` below.
+          2. Unzip it to a permanent directory.
+          3. Open `chrome://extensions` in Chrome.
+          4. Enable **Developer mode**.
+          5. Click **Load unpacked** and select the unzipped directory.
+
+          Keep the directory after installation. Chrome cannot install this store-external build with one click.
+          EOF
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Cloudmark Chrome Extension ${RELEASE_TAG#chrome-v}"
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" \
+              cloudmark-chrome.zip \
+              cloudmark-chrome.zip.sha256 \
+              --clobber
+          else
+            gh release create "$RELEASE_TAG" \
+              cloudmark-chrome.zip \
+              cloudmark-chrome.zip.sha256 \
+              --target "$GITHUB_SHA" \
+              --title "$TITLE" \
+              --notes-file release-notes.md
+          fi

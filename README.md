@@ -45,18 +45,28 @@ Try it online: [https://cloudmark.site/](https://cloudmark.site/)
 4. Click the bookmarklet while browsing to save pages
 5. Open `https://cloudmark.site/your-mark` to manage bookmarks
 
-## Chrome Extension (Developer Preview)
+## Chrome Extension
 
-The Manifest V3 extension can save the active tab with a selected or newly created category. It also adds page and link actions to Chrome's context menu.
+The Manifest V3 extension saves the active tab with an existing or new category and adds page/link actions to Chrome's context menu.
+
+### Install from GitHub Releases
+
+1. Download [`cloudmark-chrome.zip`](https://github.com/wesleyel/cloudmark/releases/latest/download/cloudmark-chrome.zip).
+2. Unzip it to a permanent directory.
+3. Open `chrome://extensions` and enable **Developer mode**.
+4. Click **Load unpacked** and select the unzipped directory.
+5. Configure the collection mark, write token, and Cloudmark server in the popup.
+
+Chrome does not support one-click installation of store-external extensions for regular users. Keep the unzipped directory after loading the extension. New versions are published on the [GitHub Releases page](https://github.com/wesleyel/cloudmark/releases).
+
+For local development, build and load `dist-extension/` instead:
 
 ```bash
 pnpm install
 pnpm build:extension
 ```
 
-Open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select `dist-extension/`. Configure the collection mark, write token, and Cloudmark server in the popup settings. The server may be `https://cloudmark.site` or any self-hosted HTTP(S) instance.
-
-See [`extension/README.md`](extension/README.md) for full setup, permissions, and local-development instructions.
+See [`extension/README.md`](extension/README.md) for permissions and development details.
 
 ## Local Development
 
