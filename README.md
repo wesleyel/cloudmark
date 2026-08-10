@@ -16,6 +16,7 @@ Try it online: [https://cloudmark.site/](https://cloudmark.site/)
 
 - 🔑 **No Registration**: Access your collection with a unique `mark`; writes require a write token
 - 🔖 **One-Click Save**: Bookmarklet embeds mark + write token
+- 🧩 **Chrome Extension**: Save the active tab with an existing or new category
 - 🏷️ **Category Management**: Custom categories for organization
 - ⌨️ **Keyboard-first**: `/` search, `j/k` navigate, `n/e/d` CRUD, `?` help
 - 📋 **High density**: Compact list with instant filter / sort
@@ -43,6 +44,19 @@ Try it online: [https://cloudmark.site/](https://cloudmark.site/)
 3. Drag the bookmarklet to your browser bookmarks bar
 4. Click the bookmarklet while browsing to save pages
 5. Open `https://cloudmark.site/your-mark` to manage bookmarks
+
+## Chrome Extension (Developer Preview)
+
+The Manifest V3 extension can save the active tab with a selected or newly created category. It also adds page and link actions to Chrome's context menu.
+
+```bash
+pnpm install
+pnpm build:extension
+```
+
+Open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select `dist-extension/`. Configure the collection mark, write token, and Cloudmark server in the popup settings. The server may be `https://cloudmark.site` or any self-hosted HTTP(S) instance.
+
+See [`extension/README.md`](extension/README.md) for full setup, permissions, and local-development instructions.
 
 ## Local Development
 

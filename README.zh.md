@@ -16,6 +16,7 @@ Cloudmark 是一款通用的云端书签管理工具，无需注册登录。创�
 
 - 🔑 **无需注册**：通过 `mark` 访问集合；写入需要 write token
 - 🔖 **一键收藏**：Bookmarklet 内嵌 mark + write token
+- 🧩 **Chrome 扩展**：选择已有分类或新建分类，快速保存当前标签页
 - 🏷️ **分类管理**：自定义分类整理书签
 - ⌨️ **键盘优先**：`/` 搜索、`j/k` 导航、`n/e/d` 增删改、`?` 帮助
 - 📋 **高信息密度**：紧凑列表 + 即时筛选 / 排序
@@ -42,6 +43,19 @@ Cloudmark 是一款通用的云端书签管理工具，无需注册登录。创�
 3. 将 bookmarklet 拖到浏览器书签栏
 4. 浏览时点击 bookmarklet 保存页面
 5. 打开 `https://cloudmark.site/你的-mark` 管理书签
+
+## Chrome 扩展（开发者预览）
+
+Manifest V3 扩展支持读取当前标签页，选择已有分类或新建分类后保存；同时提供页面和链接的右键快捷保存。
+
+```bash
+pnpm install
+pnpm build:extension
+```
+
+打开 `chrome://extensions`，启用「开发者模式」，点击「加载已解压的扩展程序」，选择 `dist-extension/`。随后在扩展设置中填写收藏名称、write token 和 Cloudmark 服务器地址。服务器既可以是 `https://cloudmark.site`，也可以是任意自托管的 HTTP(S) 实例。
+
+完整安装、权限与本地联调说明见 [`extension/README.md`](extension/README.md)。
 
 ## 本地开发
 
